@@ -13,7 +13,7 @@ RSpec.describe "Library API", type: :request do
     it "returns books" do
       # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json["data"].size).to eq(10)
     end
 
     it "returns status code 200" do
@@ -28,7 +28,7 @@ RSpec.describe "Library API", type: :request do
     context "when the record exists" do
       it "returns the book" do
         expect(json).not_to be_empty
-        expect(json["id"]).to eq(book_id)
+        expect(json["data"]["id"]).to eq(book_id.to_s)
       end
 
       it "returns status code 200" do
@@ -61,7 +61,7 @@ RSpec.describe "Library API", type: :request do
         before { post "/books", params: valid_attributes }
 
         it "creates a todo" do
-          expect(json["title"]).to eq("Options B")
+          expect(json["data"]["attributes"]["title"]).to eq("Options B")
         end
 
         it "returns status code 201" do
