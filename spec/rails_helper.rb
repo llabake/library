@@ -2,10 +2,10 @@
 
 require 'coveralls'
 Coveralls.wear!
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter([
-                                                               SimpleCov::Formatter::HTMLFormatter,
-                                                               Coveralls::SimpleCov::Formatter
-                                                           ])
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                   SimpleCov::Formatter::HTMLFormatter,
+                                                                   Coveralls::SimpleCov::Formatter
+                                                               ])
 require 'spec_helper'
 require 'simplecov'
 SimpleCov.start 'rails' do
