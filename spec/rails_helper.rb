@@ -1,8 +1,19 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+
+require 'coveralls'
+Coveralls.wear!
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                   SimpleCov::Formatter::HTMLFormatter,
+                                                                   Coveralls::SimpleCov::Formatter
+                                                               ])
 require 'spec_helper'
 require 'simplecov'
-SimpleCov.start 'rails'
-
+SimpleCov.start 'rails' do
+  add_filter '/app/mailers'
+  add_filter '/app/jobs'
+  add_filter '/app/channels'
+end
+SimpleCov.maximum_coverage_drop 5
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
@@ -41,6 +52,8 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -86,4 +99,6 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  config.include RequestSpecHelper, type: :request
 end
